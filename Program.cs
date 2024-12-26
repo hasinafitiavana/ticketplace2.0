@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ticketplace.Data;
 
@@ -5,7 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Chemin de la page de login
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Chemin de la page d'accès refusé
+    });
 
+builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
@@ -23,7 +31,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication(); // Ajouter l'authentification
+app.UseAuthorization();  // Ajouter l'autorisation
 
 app.MapControllerRoute(
     name: "default",
