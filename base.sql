@@ -13,7 +13,7 @@ CREATE TABLE utilisateur (
 
 CREATE TABLE Type_Place (
     id SERIAL PRIMARY KEY,
-    type VARCHAR(50) NOT NULL UNIQUE -- Types could be 'VIP', 'simple', 'invitation', etc.
+    type VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE Espace (
