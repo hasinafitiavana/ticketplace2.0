@@ -1,3 +1,5 @@
+create database ticketing;
+\c ticketing;
 CREATE TABLE utilisateur (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
