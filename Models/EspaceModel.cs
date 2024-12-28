@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ticketplace.Models
+namespace TicketPlace2._0.Models
 {
-    public class UtilisateurModel
+    public class EspaceModel
     {
         public int Id { get; set; }
 
@@ -11,24 +14,17 @@ namespace ticketplace.Models
         [StringLength(255)]
         public string Nom { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(255)]
-        public string Prenom { get; set; } = string.Empty;
+        public string Adresse { get; set; } = string.Empty;
 
-        [Required]
-        [EmailAddress]
         [StringLength(255)]
-        public string Email { get; set; } = string.Empty;
+        public string Ville { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(255)]
-        public string MotDePasse { get; set; } = string.Empty;
+        public string CodePostal { get; set; } = string.Empty;
 
         [Required]
-        public bool EstAdmin { get; set; } = false;
-
-        [Required]
-        public DateTime DateDeNaissance { get; set; }
+        public int Capacite { get; set; }
 
         public DateTime OnCreate { get; set; } = DateTime.UtcNow;
 

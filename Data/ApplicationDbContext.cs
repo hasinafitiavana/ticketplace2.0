@@ -4,12 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ticketplace.Models;
+using TicketPlace2._0.Models;
 
 namespace ticketplace.Data
 {
     public class ApplicationDbContext : DbContext
     {
-    public DbSet<UtilisateurModel> Utilisateurs { get; set; }
+        public DbSet<UtilisateurModel> Utilisateurs { get; set; }
+        public DbSet<TypePlaceModel> TypePlaces { get; set; }
+        public DbSet<EspaceModel> Espaces { get; set; }
+        public DbSet<EvenementModel> Evenements { get; set; }
+        public DbSet<EvenementTypePlaceModel> EvenementTypePlaces { get; set; }
+        public DbSet<PlaceVendueModel> PlaceVendues { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
