@@ -27,6 +27,9 @@ namespace TicketPlace2._0.Models
         public int NombreDePlaces { get; set; }
 
         [Required]
+        public string Emplacement { get; set; } = string.Empty; //atao json ito du genre {VIP: [1, 2, 3]}
+
+        [Required]
         [Column(TypeName = "decimal(10, 2)")]
         public decimal Prix { get; set; }
 

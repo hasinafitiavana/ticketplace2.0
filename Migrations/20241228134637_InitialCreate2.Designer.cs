@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ticketplace.Data;
@@ -11,9 +12,11 @@ using ticketplace.Data;
 namespace TicketPlace2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241228134637_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,7 +167,7 @@ namespace TicketPlace2._0.Migrations
                     b.Property<int>("EvenementId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("NumeroDePlace")
+                    b.Property<int>("NombreDePlaces")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("OnCreate")
@@ -178,10 +181,6 @@ namespace TicketPlace2._0.Migrations
 
                     b.Property<int>("TypePlaceId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("TypeReservation")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<int>("UtilisateurId")
                         .HasColumnType("integer");

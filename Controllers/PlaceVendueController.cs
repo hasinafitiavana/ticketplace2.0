@@ -61,7 +61,7 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EvenementId,TypePlaceId,UtilisateurId,NombreDePlaces,Prix,OnCreate,OnUpdate")] PlaceVendueModel placeVendueModel)
+        public async Task<IActionResult> Create([Bind("Id,EvenementId,TypePlaceId,UtilisateurId,NumeroDePlace,Prix,OnCreate,OnUpdate")] PlaceVendueModel placeVendueModel)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EvenementId,TypePlaceId,UtilisateurId,NombreDePlaces,Prix,OnCreate,OnUpdate")] PlaceVendueModel placeVendueModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EvenementId,TypePlaceId,UtilisateurId,NumeroDePlace,Prix,OnCreate,OnUpdate")] PlaceVendueModel placeVendueModel)
         {
             if (id != placeVendueModel.Id)
             {

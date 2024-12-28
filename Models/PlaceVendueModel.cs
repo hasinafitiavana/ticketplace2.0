@@ -31,7 +31,10 @@ namespace TicketPlace2._0.Models
         public UtilisateurModel Utilisateur { get; set; }
 
         [Required]
-        public int NombreDePlaces { get; set; }
+        public int NumeroDePlace { get; set; }
+
+        [Required]
+        public string TypeReservation { get; set; } = string.Empty; // ito le hoe reservation, vendu
 
         [Required]
         [Column(TypeName = "decimal(10, 2)")]
