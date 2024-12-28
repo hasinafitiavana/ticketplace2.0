@@ -24,6 +24,12 @@ namespace TicketPlace2._0.Models
         public string CodePostal { get; set; } = string.Empty;
 
         [Required]
+        public int Largeur { get; set; }
+
+        [Required]
+        public int Longueur { get; set; }
+
+        [Required]
         public int Capacite { get; set; }
 
         public DateTime OnCreate { get; set; } = DateTime.UtcNow;

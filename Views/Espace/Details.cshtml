@@ -32,7 +32,7 @@
         <dd class="col-sm-10">@Html.DisplayFor(model => model.OnUpdate)</dd>
     </dl>
 
-    <div id="chair-plan" class="space"></div>
+    <div id="chair-plan"></div>
 
     <div class="mt-3">
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
@@ -45,10 +45,11 @@
         (function() {
             const capacity = @Model.Capacite;
             const chairPlan = document.getElementById('chair-plan');
-
+            const Longueur = @Model.Longueur;
+            const Largeur = @Model.Largeur;
             // Définir les styles pour l'espace et les chaises
             chairPlan.style.display = 'grid';
-            chairPlan.style.gridTemplateColumns = 'repeat(10, 1fr)'; // 10 colonnes
+            chairPlan.style.gridTemplateColumns = `repeat(${Longueur}, 1fr)`; // 10 colonnes
             chairPlan.style.gap = '10px';
             chairPlan.style.width = '500px';
             chairPlan.style.margin = '20px auto';

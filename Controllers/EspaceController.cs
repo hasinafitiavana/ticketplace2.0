@@ -54,10 +54,11 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nom,Adresse,Ville,CodePostal,Capacite,OnCreate,OnUpdate")] EspaceModel espaceModel)
+        public async Task<IActionResult> Create([Bind("Id,Nom,Adresse,Ville,CodePostal,Largeur,Longueur,Capacite,OnCreate,OnUpdate")] EspaceModel espaceModel)
         {
             if (ModelState.IsValid)
             {
+                espaceModel.Capacite = espaceModel.Largeur * espaceModel.Longueur;
                 espaceModel.OnCreate = DateTime.UtcNow;
                 espaceModel.OnUpdate = DateTime.UtcNow;
                 _context.Add(espaceModel);
@@ -88,7 +89,7 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nom,Adresse,Ville,CodePostal,Capacite,OnCreate,OnUpdate")] EspaceModel espaceModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nom,Adresse,Ville,CodePostal,Largeur,Longueur,Capacite,OnCreate,OnUpdate")] EspaceModel espaceModel)
         {
             if (id != espaceModel.Id)
             {
@@ -99,7 +100,8 @@ namespace TicketPlace2._0.Controllers
             {
                 try
                 {
-                    espaceModel.OnCreate = DateTime.UtcNow;
+                    espaceModel.Capacite = espaceModel.Largeur * espaceModel.Longueur;
+                    // espaceModel.OnCreate = DateTime.UtcNow;
                     espaceModel.OnUpdate = DateTime.UtcNow;
                     _context.Update(espaceModel);
                     await _context.SaveChangesAsync();
