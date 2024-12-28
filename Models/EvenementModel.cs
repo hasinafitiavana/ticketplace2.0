@@ -11,7 +11,7 @@ namespace TicketPlace2._0.Models
         public int EspaceId { get; set; }
 
         [ForeignKey("EspaceId")]
-        public EspaceModel Espace { get; set; }
+        public EspaceModel? Espace { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -30,8 +30,8 @@ namespace TicketPlace2._0.Models
         [StringLength(255)]
         public string Lieu { get; set; } = string.Empty;
 
-        public DateTime OnCreate { get; set; } = DateTime.UtcNow;
+        public DateTime OnCreate { get; set; }
 
-        public DateTime OnUpdate { get; set; } = DateTime.UtcNow;
+        public DateTime OnUpdate { get; set; }
     }
 }

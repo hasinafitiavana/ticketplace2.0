@@ -58,6 +58,8 @@ namespace TicketPlace2._0.Controllers
         {
             if (ModelState.IsValid)
             {
+                espaceModel.OnCreate = DateTime.UtcNow;
+                espaceModel.OnUpdate = DateTime.UtcNow;
                 _context.Add(espaceModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,6 +99,8 @@ namespace TicketPlace2._0.Controllers
             {
                 try
                 {
+                    espaceModel.OnCreate = DateTime.UtcNow;
+                    espaceModel.OnUpdate = DateTime.UtcNow;
                     _context.Update(espaceModel);
                     await _context.SaveChangesAsync();
                 }

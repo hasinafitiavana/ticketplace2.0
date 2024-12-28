@@ -102,9 +102,7 @@ namespace TicketPlace2._0.Controllers
             {
                 try
                 {
-                    
-                    utilisateurModel.OnCreate = DateTime.UtcNow;
-                    utilisateurModel.OnUpdate = DateTime.UtcNow;
+                    utilisateurModel.OnUpdate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
                     utilisateurModel.DateDeNaissance = DateTime.SpecifyKind(utilisateurModel.DateDeNaissance, DateTimeKind.Utc);
                     _context.Update(utilisateurModel);
                     await _context.SaveChangesAsync();

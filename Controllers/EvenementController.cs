@@ -61,6 +61,10 @@ namespace TicketPlace2._0.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+                evenementModel.Date = DateTime.SpecifyKind(evenementModel.Date, DateTimeKind.Utc);
+                evenementModel.OnCreate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+                evenementModel.OnUpdate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
                 _context.Add(evenementModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -102,6 +106,9 @@ namespace TicketPlace2._0.Controllers
             {
                 try
                 {
+                    evenementModel.Date = DateTime.SpecifyKind(evenementModel.Date, DateTimeKind.Utc);
+                    evenementModel.OnUpdate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+                    
                     _context.Update(evenementModel);
                     await _context.SaveChangesAsync();
                 }

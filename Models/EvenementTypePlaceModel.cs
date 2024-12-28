@@ -15,13 +15,13 @@ namespace TicketPlace2._0.Models
         public int EvenementId { get; set; }
 
         [ForeignKey("EvenementId")]
-        public EvenementModel Evenement { get; set; }
+        public EvenementModel? Evenement { get; set; }
 
         [Required]
         public int TypePlaceId { get; set; }
 
         [ForeignKey("TypePlaceId")]
-        public TypePlaceModel TypePlace { get; set; }
+        public TypePlaceModel? TypePlace { get; set; }
 
         [Required]
         public int NombreDePlaces { get; set; }
