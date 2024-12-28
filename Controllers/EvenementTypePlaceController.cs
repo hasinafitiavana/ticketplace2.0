@@ -49,7 +49,11 @@ namespace TicketPlace2._0.Controllers
         // GET: EvenementTypePlace/Create
         public IActionResult Create()
         {
-            ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description");
+
+            var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
+
+            ViewData["Evenement"] = evenements;
+            ViewData["EvenementId"] = new SelectList(evenements, "Id", "Nom");
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type");
             return View();
         }
@@ -67,7 +71,11 @@ namespace TicketPlace2._0.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description", evenementTypePlaceModel.EvenementId);
+            
+            var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
+
+            ViewData["Evenement"] = evenements;
+            ViewData["EvenementId"] = new SelectList(evenements, "Id", "Description", evenementTypePlaceModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", evenementTypePlaceModel.TypePlaceId);
             return View(evenementTypePlaceModel);
         }

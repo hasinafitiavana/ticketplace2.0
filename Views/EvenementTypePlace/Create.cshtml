@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
+    
+    var evenements = ViewData["Evenement"] as List<EvenementModel>;
 }
 
 <h1>Create</h1>
@@ -9,12 +11,12 @@
 <h4>EvenementTypePlaceModel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EvenementId" class="control-label"></label>
-                <select asp-for="EvenementId" class ="form-control" asp-items="ViewBag.EvenementId"></select>
+                <select asp-for="EvenementId" class ="form-control" asp-items="ViewBag.EvenementId" id="EvenementId" ></select>
             </div>
             <div class="form-group">
                 <label asp-for="TypePlaceId" class="control-label"></label>
@@ -31,6 +33,11 @@
                 <span asp-validation-for="Prix" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Emplacement" class="control-label"></label>
+                <div id="emplacement-container" style="display: grid;"></div>
+                <input asp-for="Emplacement" class="form-control" type="hidden" id="Emplacement" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -43,4 +50,58 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+   @* <script>
+        var evenements = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(evenements));
+        document.getElementById("EvenementId").addEventListener("change", function() {
+            var selectedValue = this.value;
+            const selectedEvenement = evenements.find(e => e.Id+'' === selectedValue+'')
+            console.log("Selected Evenement:", selectedEvenement);
+            const longuer = 2;
+            const largeur = 2; 
+        });
+    </script> *@
+    <script>
+        var evenements = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(evenements));
+
+        document.getElementById("EvenementId").addEventListener("change", function() {
+            var selectedValue = this.value;
+            const selectedEvenement = evenements.find(e => e.Id+'' === selectedValue+'')
+            console.log("Selected Evenement:", selectedEvenement);
+            const longueur = parseInt(selectedEvenement.Espace.Longueur);
+            const largeur = parseInt(selectedEvenement.Espace.Largeur);  
+            var emplacementContainer = document.getElementById("emplacement-container");
+            emplacementContainer.style.gridTemplateColumns = `repeat(${longueur}, 1fr)`;
+            emplacementContainer.innerHTML = '';
+            for (let i = 0; i < longueur; i++) {
+                for (let j = 0; j < largeur; j++) {
+                    let checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `emplacement-${i}-${j}`;
+                    checkbox.name = 'emplacement';
+                    checkbox.value = `${i}-${j}`;
+
+                    let label = document.createElement('label');
+                    label.htmlFor = checkbox.id;
+                    label.appendChild(document.createTextNode(`Row ${i + 1} Seat ${j + 1}`));
+
+                    let wrapper = document.createElement('div');
+                    wrapper.appendChild(checkbox);
+                    wrapper.appendChild(label);
+                    emplacementContainer.appendChild(wrapper);
+                }
+            }
+
+            document.querySelectorAll('input[name="emplacement"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    let selectedEmplacements = [];
+                    document.querySelectorAll('input[name="emplacement"]:checked').forEach(checkedBox => {
+                        selectedEmplacements.push(checkedBox.value);
+                    });
+                    document.getElementById("Emplacement").value = JSON.stringify(selectedEmplacements);
+                });
+            });
+        });
+    </script>
+    
 }
