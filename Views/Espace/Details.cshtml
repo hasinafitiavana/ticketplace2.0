@@ -47,16 +47,12 @@
             const chairPlan = document.getElementById('chair-plan');
             const Longueur = @Model.Longueur;
             const Largeur = @Model.Largeur;
-            // Définir les styles pour l'espace et les chaises
             chairPlan.style.display = 'grid';
-            chairPlan.style.gridTemplateColumns = `repeat(${Longueur}, 1fr)`; // 10 colonnes
+            chairPlan.style.gridTemplateColumns = `repeat(${Longueur}, 1fr)`; 
             chairPlan.style.gap = '10px';
             chairPlan.style.width = '500px';
             chairPlan.style.margin = '20px auto';
             chairPlan.style.padding = '20px';
-            @* chairPlan.style.border = '2px solid #000'; *@
-
-            // Fonction pour générer les chaises
             function generateChairs(numSeats) {
                 for (let i = 1; i <= numSeats; i++) {
                     const chair = document.createElement('div');
@@ -67,8 +63,6 @@
                     chairPlan.appendChild(chair);
                 }
             }
-
-            // Générer les chaises dans l'espace
             generateChairs(capacity);
         })();
     </script>

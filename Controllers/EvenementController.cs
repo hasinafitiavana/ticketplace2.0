@@ -227,6 +227,19 @@ namespace TicketPlace2._0.Controllers
             return View(items);
         }
 
+        public async Task<IActionResult> ChoixPlace(int idEvenement)
+        {
+            var evenement = await _context.Evenements.Include(e => e.Espace).FirstOrDefaultAsync(e => e.Id == idEvenement);
+            var evenementTypePlaces = await _context.EvenementTypePlaces.Include(e => e.TypePlace).Where(e => e.EvenementId == idEvenement).ToListAsync();
+            if (evenement == null)
+            {
+                return NotFound();
+            }
+            ViewData["EvenementTypePlaces"] = evenementTypePlaces;
+
+            return View(evenement);
+        }
+
         private bool EvenementModelExists(int id)
         {
             return _context.Evenements.Any(e => e.Id == id);

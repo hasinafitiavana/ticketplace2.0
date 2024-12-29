@@ -10,5 +10,9 @@ namespace TicketPlace2._0.Models
         [Required]
         [StringLength(50)]
         public string Type { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(50)]
+        public string Couleurs { get; set; } = string.Empty;
     }
 }

@@ -60,7 +60,7 @@
                                 @item.Date.ToString("MMMM dd, yyyy") à @item.Heure.ToString("hh\\:mm")
                             </small>
                         </p>
-                        <a href="@Url.Action("Details", "Evenement", new { id = item.Id })" class="btn btn-primary">Voir</a>
+                        <a href="@Url.Action("ChoixPlace", "Evenement", new { idEvenement = item.Id })" class="btn btn-primary">Voir</a>
                     </div>
                 </div>
             </div>

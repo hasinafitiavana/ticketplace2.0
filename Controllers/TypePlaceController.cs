@@ -54,7 +54,7 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type")] TypePlaceModel typePlaceModel)
+        public async Task<IActionResult> Create([Bind("Id,Type,Couleurs")] TypePlaceModel typePlaceModel)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type")] TypePlaceModel typePlaceModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Couleurs")] TypePlaceModel typePlaceModel)
         {
             if (id != typePlaceModel.Id)
             {

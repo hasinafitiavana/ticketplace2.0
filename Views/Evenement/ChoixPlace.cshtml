@@ -1,0 +1,124 @@
+
+@{
+    ViewData["Title"] = "ChoixPlace";
+    var evenementTypePlaces = ViewData["EvenementTypePlaces"] as List<EvenementTypePlaceModel>;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    choix de la place
+    
+    <div id="chair-plan"></div>
+    <div class="mt-3">
+        <a asp-action="ListEvenementPaginated"  class="btn btn-primary">Back to List</a>
+    </div>
+</div>
+<div id="chair-plan" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; width: 500px; margin: 20px auto; padding: 20px;">
+    @foreach (var item in evenementTypePlaces)
+    {
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="chair" style="background-color: @item.TypePlace.Couleurs; color: white; font-weight: bold; width: 40px; height: 40px;">
+                <!-- Vous pouvez ajouter un contenu à la chaise si nécessaire -->
+            </div>
+            <div class="info text-center" style="margin-left: 10px;">@item.TypePlace.Type</div>
+        </div>
+    }
+</div>
+
+
+<div class="modal fade" id="chairModal" tabindex="-1" aria-labelledby="chairModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chairModalLabel">Informations sur la chaise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="chair-info">Sélectionnez une chaise pour plus d'informations.</p>
+                <p id="chair-price"></p>
+                <!-- Add input fields for inserting data -->
+                <div>
+                    <label for="chair-info-input">Information sur la chaise :</label>
+                    <input type="text" id="chair-info-input" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" id="save-chair-info">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const evenement = @Html.Raw(Json.Serialize(Model));
+    var evenementTypePlaces = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(evenementTypePlaces));
+    @* console.log(evenement); *@
+    console.log(evenementTypePlaces);
+    
+</script>
+
+@section Scripts {
+    <script>
+        (function() {
+            @* console.log("**********",evenement) *@
+            const capacity = evenement.espace.capacite;
+            const chairPlan = document.getElementById('chair-plan');
+            const Longueur =  evenement.espace.longueur;
+            const Largeur =  evenement.espace.largeur;
+            chairPlan.style.display = 'grid';
+            chairPlan.style.gridTemplateColumns = `repeat(${Longueur}, 1fr)`; 
+            chairPlan.style.gap = '10px';
+            chairPlan.style.width = '500px';
+            chairPlan.style.margin = '20px auto';
+            chairPlan.style.padding = '20px';
+            function getChairTypeColor(chairId) {
+                for (const typePlace of evenementTypePlaces) {
+                    const emplacements = JSON.parse(typePlace.Emplacements);
+                    if (emplacements.includes(chairId.toString())) {
+                        return typePlace.TypePlace.Couleurs;
+                    }
+                }
+                return "blue"; 
+            }
+            function getChairPrice(chairId){Largeur
+                for (const typePlace of evenementTypePlaces) {
+                    const emplacements = JSON.parse(typePlace.Emplacements);
+                    if (emplacements.includes(chairId.toString())) {
+                        return typePlace.Prix;
+                    }
+                }
+                return "0"; 
+            }
+            function generateChairs(numSeats) {
+                for (let i = 0; i < numSeats; i++) {
+                    const chair = document.createElement('div');
+                    chair.classList.add('chair', 'd-flex', 'align-items-center', 'justify-content-center', 'text-white', 'font-weight-bold', 'm-1');
+                    chair.style.backgroundColor =  getChairTypeColor(i);;
+                    chair.style.width = '40px';
+                    chair.style.height = '40px';
+                    chair.textContent = i;
+                    chairPlan.appendChild(chair);
+                    chair.addEventListener('click', function() {
+                        const chairInfo = `Informations sur la chaise numéro ${i}`;
+                        document.getElementById('chair-info').textContent = chairInfo;
+                        const chairPrice = `Prix: ${getChairPrice(i)} Ar`;
+                        document.getElementById('chair-price').textContent = chairPrice;
+                        const inputField = document.getElementById('chair-info-input');
+                        inputField.value = ''; 
+                        const saveButton = document.getElementById('save-chair-info');
+
+                        saveButton.onclick = function() {
+                            const enteredInfo = inputField.value;
+                            console.log(`Info sauvegardée pour la chaise ${i}: ${enteredInfo}`);
+                        };
+
+                        const chairModal = new bootstrap.Modal(document.getElementById('chairModal'));
+                        chairModal.show();
+                    });
+                }
+            }
+            generateChairs(capacity);
+        })();
+    </script>
+}
