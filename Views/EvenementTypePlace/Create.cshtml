@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
     
     var evenements = ViewData["Evenement"] as List<EvenementModel>;
+    var evenementTypePlace = ViewData["EvenementTypePlace"] as List<EvenementTypePlaceModel>;
 }
 
 <h1>Create</h1>
@@ -52,13 +53,15 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+    <script >
         var evenements = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(evenements));
-
+        var evenementTypePlace = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(evenementTypePlace));
         document.getElementById("EvenementId").addEventListener("change", function() {
             var selectedValue = this.value;
             const selectedEvenement = evenements.find(e => e.Id+'' === selectedValue+'')
-            console.log("Selected Evenement:", selectedEvenement);
+            const selectedEvenementTypePlace = evenementTypePlace.filter(e => e.EvenementId+'' === selectedValue+'')
+            const getAllAlredySelectedEmplacements = selectedEvenementTypePlace.map(e => JSON.parse(e.Emplacements));
+            const allSelectedEmplacements = [].concat.apply([], getAllAlredySelectedEmplacements);
             const longueur = parseInt(selectedEvenement.Espace.Longueur);
             const largeur = parseInt(selectedEvenement.Espace.Largeur);  
             var emplacementContainer = document.getElementById("emplacement-container");
@@ -72,6 +75,14 @@
                     checkbox.id = `emplacement-${i}-${j}`;
                     checkbox.name = 'emplacement';
                     checkbox.value = `${indexForValue}`;
+                    //make the checkbox disabled if it is already selected
+
+                    if(allSelectedEmplacements.includes(`${indexForValue}`)){
+                        checkbox.disabled = true;
+                        //change the color of the selected checkbox
+                        checkbox.style.backgroundColor = 'red';
+                        
+                    }
 
                     let label = document.createElement('label');
                     label.htmlFor = checkbox.id;
@@ -92,10 +103,7 @@
                         selectedEmplacements.push(checkedBox.value);
                     });
                     document.getElementById('NombreDePlaces').value = selectedEmplacements.length;
-                    console.log(selectedEmplacements,'selectedEmplacements');
-                    document.getElementById("Emplacements").value = JSON.stringify(selectedEmplacements)+'';
-                    @* document.getElementById("Emplacements").value = selectedEmplacements.length; *@
-                    console.log("Emplacements value on change:", document.getElementById('Emplacements').value);
+                    document.getElementById("Emplacements").value =  JSON.stringify(selectedEmplacements);
                 });
             });
         });

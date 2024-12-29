@@ -53,6 +53,7 @@ namespace TicketPlace2._0.Controllers
             var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
 
             ViewData["Evenement"] = evenements;
+            ViewData["EvenementTypePlace"] = _context.EvenementTypePlaces.ToList();
             ViewData["EvenementId"] = new SelectList(evenements, "Id", "Nom");
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type");
             return View();
@@ -76,6 +77,7 @@ namespace TicketPlace2._0.Controllers
             var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
 
             ViewData["Evenement"] = evenements;
+            ViewData["EvenementTypePlace"] = _context.EvenementTypePlaces.ToList();
             ViewData["EvenementId"] = new SelectList(evenements, "Id", "Description", evenementTypePlaceModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", evenementTypePlaceModel.TypePlaceId);
             return View(evenementTypePlaceModel);
@@ -98,6 +100,7 @@ namespace TicketPlace2._0.Controllers
             var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
 
             ViewData["Evenement"] = evenements;
+            ViewData["EvenementTypePlace"] = _context.EvenementTypePlaces.ToList();
             ViewData["EvenementId"] = new SelectList(evenements, "Id", "Nom", evenementTypePlaceModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", evenementTypePlaceModel.TypePlaceId);
             return View(evenementTypePlaceModel);
@@ -140,6 +143,7 @@ namespace TicketPlace2._0.Controllers
             var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
 
             ViewData["Evenement"] = evenements;
+            ViewData["EvenementTypePlace"] = _context.EvenementTypePlaces.ToList();
             ViewData["EvenementId"] = new SelectList(evenements, "Id", "Description", evenementTypePlaceModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", evenementTypePlaceModel.TypePlaceId);
             return View(evenementTypePlaceModel);
