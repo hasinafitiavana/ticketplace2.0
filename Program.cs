@@ -6,6 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Durée de la session avant expiration
+    options.Cookie.HttpOnly = true; // Rend le cookie de session accessible uniquement par HTTP
+    options.Cookie.IsEssential = true; // Rend le cookie de session essentiel
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -33,6 +39,8 @@ app.UseRouting();
 
 app.UseAuthentication(); // Ajouter l'authentification
 app.UseAuthorization();  // Ajouter l'autorisation
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

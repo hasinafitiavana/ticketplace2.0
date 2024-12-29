@@ -163,6 +163,33 @@ namespace TicketPlace2._0.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> ListEvenementPaginated(string search, int? page)
+        {
+            var evenements = from m in _context.Evenements
+                            select m;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                evenements = evenements.Where(s => s.Nom.Contains(search));
+            }
+
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            // Get the total count of items
+            int totalCount = await evenements.CountAsync();
+
+            // Get the items for the current page
+            var items = await evenements.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            // Set ViewData or ViewBag for pagination
+            ViewData["CurrentPage"] = pageNumber;
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalCount / (double)pageSize);
+            ViewData["Search"] = search;
+
+            return View(items);
+        }
+
         private bool EvenementModelExists(int id)
         {
             return _context.Evenements.Any(e => e.Id == id);

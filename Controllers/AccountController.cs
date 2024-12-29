@@ -3,13 +3,23 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using ticketplace.Models;
-using System.Threading.Tasks;
+using ticketplace.Data;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace TicketPlace2._0.Controllers
 {
     
     public class AccountController : Controller
     {
+        
+        private readonly ApplicationDbContext _context;
+
+        public AccountController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -23,14 +33,16 @@ namespace TicketPlace2._0.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Simuler l'authentification de l'utilisateur
-                // Vous devez remplacer cette logique par une vérification réelle des informations d'identification de l'utilisateur
-                if (model.Email == "test@example.com" && model.Password == "Password123")
+                var getUser = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.Email == model.Email && u.MotDePasse == model.Password);
+                if (getUser != null)
                 {
+                    //save user data in session
+                    HttpContext.Session.SetString("User", JsonConvert.SerializeObject(getUser));
                     // Création des revendications utilisateur
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, model.Email)
+                        new Claim(ClaimTypes.Name, getUser.Nom + " " + getUser.Prenom),
+                        new Claim(ClaimTypes.Role, getUser.EstAdmin ? "Admin" : "User"),
                     };
 
                     // Création de l'identité des revendications avec le schéma d'authentification par cookies
@@ -59,17 +71,15 @@ namespace TicketPlace2._0.Controllers
                     ModelState.AddModelError(string.Empty, "Login failed: Invalid email or password.");
                 }
             }
-
-            // Si nous arrivons ici, quelque chose a échoué, réafficher le formulaire avec les erreurs
             return View(model);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Logout()
         {
             // Déconnexion de l'utilisateur et suppression du cookie d'authentification
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            // Suppression des données utilisateur de la session
+            HttpContext.Session.Remove("User");
             return RedirectToAction("Login", "Account");
         }
 

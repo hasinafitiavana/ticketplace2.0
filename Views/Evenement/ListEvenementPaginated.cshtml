@@ -1,0 +1,50 @@
+
+@{
+    ViewData["Title"] = "ListEvenement";
+}
+
+
+<form method="get" asp-action="ListEvenementPaginated">
+    <div class="form-group">
+        <label for="search">Search:</label>
+        <input type="text" name="search" value="@ViewData["Search"]" class="form-control" />
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </div>
+</form>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+         <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="~/img/event.jpg" class="card-img-top" alt="@item.Nom">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Nom</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@item.Lieu</h6>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            @item.Date.ToString("MMMM dd, yyyy") at @item.Heure.ToString("hh\\:mm")
+                        </small>
+                    </p>
+                    <a href="@Url.Action("Details", "Evenement", new { id = item.Id })" class="btn btn-primary">Voir</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-between">
+    @{
+        var currentPage = (int)ViewData["CurrentPage"];
+        var totalPages = (int)ViewData["TotalPages"];
+    }
+    @if (currentPage > 1)
+    {
+        <a class="btn btn-primary" asp-action="ListEvenementPaginated" asp-route-page="@(currentPage - 1)" asp-route-search="@ViewData["Search"]">Previous</a>
+    }
+    @if (currentPage < totalPages)
+    {
+        <a class="btn btn-primary" asp-action="ListEvenementPaginated" asp-route-page="@(currentPage + 1)" asp-route-search="@ViewData["Search"]">Next</a>
+    }
+</div>
