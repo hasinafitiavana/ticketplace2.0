@@ -7,18 +7,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TicketPlace2._0.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateModels : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "EstAdmin",
-                table: "Utilisateurs",
-                type: "boolean",
-                nullable: false,
-                defaultValue: false);
-
             migrationBuilder.CreateTable(
                 name: "Espaces",
                 columns: table => new
@@ -29,6 +22,8 @@ namespace TicketPlace2._0.Migrations
                     Adresse = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Ville = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     CodePostal = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Largeur = table.Column<int>(type: "integer", nullable: false),
+                    Longueur = table.Column<int>(type: "integer", nullable: false),
                     Capacite = table.Column<int>(type: "integer", nullable: false),
                     OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -49,6 +44,26 @@ namespace TicketPlace2._0.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TypePlaces", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Utilisateurs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nom = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Prenom = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    MotDePasse = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    EstAdmin = table.Column<bool>(type: "boolean", nullable: false),
+                    DateDeNaissance = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Utilisateurs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,6 +101,7 @@ namespace TicketPlace2._0.Migrations
                     EvenementId = table.Column<int>(type: "integer", nullable: false),
                     TypePlaceId = table.Column<int>(type: "integer", nullable: false),
                     NombreDePlaces = table.Column<int>(type: "integer", nullable: false),
+                    Emplacement = table.Column<int>(type: "integer", nullable: false),
                     Prix = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -116,7 +132,8 @@ namespace TicketPlace2._0.Migrations
                     EvenementId = table.Column<int>(type: "integer", nullable: false),
                     TypePlaceId = table.Column<int>(type: "integer", nullable: false),
                     UtilisateurId = table.Column<int>(type: "integer", nullable: false),
-                    NombreDePlaces = table.Column<int>(type: "integer", nullable: false),
+                    NumeroDePlace = table.Column<int>(type: "integer", nullable: false),
+                    TypeReservation = table.Column<string>(type: "text", nullable: false),
                     Prix = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -191,11 +208,10 @@ namespace TicketPlace2._0.Migrations
                 name: "TypePlaces");
 
             migrationBuilder.DropTable(
-                name: "Espaces");
+                name: "Utilisateurs");
 
-            migrationBuilder.DropColumn(
-                name: "EstAdmin",
-                table: "Utilisateurs");
+            migrationBuilder.DropTable(
+                name: "Espaces");
         }
     }
 }

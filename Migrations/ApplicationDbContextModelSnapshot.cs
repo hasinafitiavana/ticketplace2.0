@@ -122,7 +122,7 @@ namespace TicketPlace2._0.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Emplacement")
+                    b.Property<string>("Emplacements")
                         .IsRequired()
                         .HasColumnType("text");
 

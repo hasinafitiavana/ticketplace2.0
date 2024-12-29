@@ -12,8 +12,8 @@ using ticketplace.Data;
 namespace TicketPlace2._0.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241228134637_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20241228200014_InitialCreate1")]
+    partial class InitialCreate1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,9 +125,8 @@ namespace TicketPlace2._0.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Emplacement")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Emplacements")
+                        .HasColumnType("integer");
 
                     b.Property<int>("EvenementId")
                         .HasColumnType("integer");
@@ -167,7 +166,7 @@ namespace TicketPlace2._0.Migrations
                     b.Property<int>("EvenementId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("NombreDePlaces")
+                    b.Property<int>("NumeroDePlace")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("OnCreate")
@@ -181,6 +180,10 @@ namespace TicketPlace2._0.Migrations
 
                     b.Property<int>("TypePlaceId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TypeReservation")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("UtilisateurId")
                         .HasColumnType("integer");

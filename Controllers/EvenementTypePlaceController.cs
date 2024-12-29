@@ -63,8 +63,9 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EvenementId,TypePlaceId,NombreDePlaces,Prix,OnCreate,OnUpdate")] EvenementTypePlaceModel evenementTypePlaceModel)
+        public async Task<IActionResult> Create([Bind("Id,EvenementId,TypePlaceId,NombreDePlaces,Prix,Emplacements,OnCreate,OnUpdate")] EvenementTypePlaceModel evenementTypePlaceModel)
         {
+            Console.WriteLine(evenementTypePlaceModel.Emplacements + "-----------------");
             if (ModelState.IsValid)
             {
                 _context.Add(evenementTypePlaceModel);
@@ -93,7 +94,11 @@ namespace TicketPlace2._0.Controllers
             {
                 return NotFound();
             }
-            ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description", evenementTypePlaceModel.EvenementId);
+            
+            var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
+
+            ViewData["Evenement"] = evenements;
+            ViewData["EvenementId"] = new SelectList(evenements, "Id", "Nom", evenementTypePlaceModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", evenementTypePlaceModel.TypePlaceId);
             return View(evenementTypePlaceModel);
         }
@@ -103,12 +108,13 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EvenementId,TypePlaceId,NombreDePlaces,Prix,OnCreate,OnUpdate")] EvenementTypePlaceModel evenementTypePlaceModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EvenementId,TypePlaceId,NombreDePlaces,Prix,Emplacements,OnCreate,OnUpdate")] EvenementTypePlaceModel evenementTypePlaceModel)
         {
             if (id != evenementTypePlaceModel.Id)
             {
                 return NotFound();
             }
+            Console.WriteLine( "-----------------" +evenementTypePlaceModel.Emplacements );
 
             if (ModelState.IsValid)
             {
@@ -130,7 +136,11 @@ namespace TicketPlace2._0.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description", evenementTypePlaceModel.EvenementId);
+            
+            var evenements = _context.Evenements.Include(e=>e.Espace).ToList();
+
+            ViewData["Evenement"] = evenements;
+            ViewData["EvenementId"] = new SelectList(evenements, "Id", "Description", evenementTypePlaceModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", evenementTypePlaceModel.TypePlaceId);
             return View(evenementTypePlaceModel);
         }

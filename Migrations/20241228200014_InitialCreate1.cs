@@ -5,25 +5,24 @@
 namespace TicketPlace2._0.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate2 : Migration
+    public partial class InitialCreate1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.RenameColumn(
                 name: "Emplacement",
                 table: "EvenementTypePlaces",
-                type: "text",
-                nullable: false,
-                defaultValue: "");
+                newName: "Emplacements");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Emplacement",
-                table: "EvenementTypePlaces");
+            migrationBuilder.RenameColumn(
+                name: "Emplacements",
+                table: "EvenementTypePlaces",
+                newName: "Emplacement");
         }
     }
 }

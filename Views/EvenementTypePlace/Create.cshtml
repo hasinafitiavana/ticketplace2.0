@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div>
-        <form asp-action="Create">
+        <form asp-action="Create" id="createForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EvenementId" class="control-label"></label>
@@ -24,18 +24,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="NombreDePlaces" class="control-label"></label>
-                <input asp-for="NombreDePlaces" class="form-control" />
+                <input asp-for="NombreDePlaces" class="form-control" id="NombreDePlaces" readonly />
                 <span asp-validation-for="NombreDePlaces" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Emplacements" class="control-label"></label>
+                <div id="emplacement-container" style="display: grid;"></div>
+                <input asp-for="Emplacements" class="form-control" id="Emplacements" type="hidden"/>
+                <span asp-validation-for="Emplacements" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Prix" class="control-label"></label>
                 <input asp-for="Prix" class="form-control" type="number" />
                 <span asp-validation-for="Prix" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Emplacement" class="control-label"></label>
-                <div id="emplacement-container" style="display: grid;"></div>
-                <input asp-for="Emplacement" class="form-control" type="hidden" id="Emplacement" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -50,17 +52,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
-   @* <script>
-        var evenements = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(evenements));
-        document.getElementById("EvenementId").addEventListener("change", function() {
-            var selectedValue = this.value;
-            const selectedEvenement = evenements.find(e => e.Id+'' === selectedValue+'')
-            console.log("Selected Evenement:", selectedEvenement);
-            const longuer = 2;
-            const largeur = 2; 
-        });
-    </script> *@
     <script>
         var evenements = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(evenements));
 
@@ -73,13 +64,14 @@
             var emplacementContainer = document.getElementById("emplacement-container");
             emplacementContainer.style.gridTemplateColumns = `repeat(${longueur}, 1fr)`;
             emplacementContainer.innerHTML = '';
+            let indexForValue = 0;
             for (let i = 0; i < longueur; i++) {
                 for (let j = 0; j < largeur; j++) {
                     let checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.id = `emplacement-${i}-${j}`;
                     checkbox.name = 'emplacement';
-                    checkbox.value = `${i}-${j}`;
+                    checkbox.value = `${indexForValue}`;
 
                     let label = document.createElement('label');
                     label.htmlFor = checkbox.id;
@@ -89,6 +81,7 @@
                     wrapper.appendChild(checkbox);
                     wrapper.appendChild(label);
                     emplacementContainer.appendChild(wrapper);
+                    indexForValue++;
                 }
             }
 
@@ -98,7 +91,11 @@
                     document.querySelectorAll('input[name="emplacement"]:checked').forEach(checkedBox => {
                         selectedEmplacements.push(checkedBox.value);
                     });
-                    document.getElementById("Emplacement").value = JSON.stringify(selectedEmplacements);
+                    document.getElementById('NombreDePlaces').value = selectedEmplacements.length;
+                    console.log(selectedEmplacements,'selectedEmplacements');
+                    document.getElementById("Emplacements").value = JSON.stringify(selectedEmplacements)+'';
+                    @* document.getElementById("Emplacements").value = selectedEmplacements.length; *@
+                    console.log("Emplacements value on change:", document.getElementById('Emplacements').value);
                 });
             });
         });
