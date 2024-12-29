@@ -30,6 +30,10 @@ namespace TicketPlace2._0.Models
         [StringLength(255)]
         public string Lieu { get; set; } = string.Empty;
 
+
+        [StringLength(255)]
+        public string? ImagePath { get; set; }
+
         public DateTime OnCreate { get; set; }
 
         public DateTime OnUpdate { get; set; }

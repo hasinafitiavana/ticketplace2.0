@@ -91,6 +91,10 @@ namespace TicketPlace2._0.Migrations
                     b.Property<TimeSpan>("Heure")
                         .HasColumnType("interval");
 
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<string>("Lieu")
                         .IsRequired()
                         .HasMaxLength(255)

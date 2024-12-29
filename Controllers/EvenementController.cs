@@ -57,11 +57,29 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EspaceId,Nom,Description,Date,Heure,Lieu,OnCreate,OnUpdate")] EvenementModel evenementModel)
+        public async Task<IActionResult> Create([Bind("Id,EspaceId,Nom,Description,Date,Heure,Lieu,ImagePath,OnCreate,OnUpdate")] EvenementModel evenementModel,IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
-                
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+
+                    if (!Directory.Exists(imagesDirectory))
+                    {
+                        Directory.CreateDirectory(imagesDirectory);
+                    }
+
+                    var fileName = Path.GetFileName(imageFile.FileName);
+                    var filePath = Path.Combine(imagesDirectory, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    evenementModel.ImagePath = $"/images/{fileName}";
+                }
                 evenementModel.Date = DateTime.SpecifyKind(evenementModel.Date, DateTimeKind.Utc);
                 evenementModel.OnCreate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
                 evenementModel.OnUpdate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
@@ -95,7 +113,7 @@ namespace TicketPlace2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EspaceId,Nom,Description,Date,Heure,Lieu,OnCreate,OnUpdate")] EvenementModel evenementModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EspaceId,Nom,Description,Date,Heure,Lieu,ImagePath,OnCreate,OnUpdate")] EvenementModel evenementModel, IFormFile imageFile)
         {
             if (id != evenementModel.Id)
             {
@@ -106,6 +124,25 @@ namespace TicketPlace2._0.Controllers
             {
                 try
                 {
+                     if (imageFile != null && imageFile.Length > 0)
+                    {
+                        var imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+
+                        if (!Directory.Exists(imagesDirectory))
+                        {
+                            Directory.CreateDirectory(imagesDirectory);
+                        }
+
+                        var fileName = Path.GetFileName(imageFile.FileName);
+                        var filePath = Path.Combine(imagesDirectory, fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await imageFile.CopyToAsync(stream);
+                        }
+
+                        evenementModel.ImagePath = $"/images/{fileName}";
+                    }
                     evenementModel.Date = DateTime.SpecifyKind(evenementModel.Date, DateTimeKind.Utc);
                     evenementModel.OnUpdate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
                     

@@ -3,6 +3,39 @@
     ViewData["Title"] = "ListEvenement";
 }
 
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body{
+            background-color: #f9f6f2;
+    }
+    .card-img-top{
+        border-radius: 50px;
+        padding: 20px;
+    }
+    .card{
+        border-radius: 30px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    }
+    .card-body{
+        padding: 25px;
+        margin-top: -15px;
+    }
+    .btn-primary{
+        border-radius: 50px;
+        width: 120px;
+    }
+    .btn-primary:hover{
+        background-color: black;
+        border: none;
+    }
+    h3,h5{
+        color: rgb(0, 91, 228);
+    }
+</style>
 
 <form method="get" asp-action="ListEvenementPaginated">
     <div class="form-group">
@@ -11,28 +44,30 @@
         <button type="submit" class="btn btn-primary mt-2">Search</button>
     </div>
 </form>
-
-<div class="row">
-    @foreach (var item in Model)
-    {
-         <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="~/img/event.jpg" class="card-img-top" alt="@item.Nom">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Nom</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@item.Lieu</h6>
-                    <p class="card-text">@item.Description</p>
-                    <p class="card-text">
-                        <small class="text-muted">
-                            @item.Date.ToString("MMMM dd, yyyy") at @item.Heure.ToString("hh\\:mm")
-                        </small>
-                    </p>
-                    <a href="@Url.Action("Details", "Evenement", new { id = item.Id })" class="btn btn-primary">Voir</a>
+<div class="container py-5">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <img src="@item.ImagePath" height="200px" class="card-img-top" alt="@item.Nom">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Nom</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.Lieu</h6>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                @item.Date.ToString("MMMM dd, yyyy") à @item.Heure.ToString("hh\\:mm")
+                            </small>
+                        </p>
+                        <a href="@Url.Action("Details", "Evenement", new { id = item.Id })" class="btn btn-primary">Voir</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
+
 
 <div class="d-flex justify-content-between">
     @{
