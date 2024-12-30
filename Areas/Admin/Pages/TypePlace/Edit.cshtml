@@ -1,0 +1,40 @@
+@page
+@model TicketPlace2._0.Areas_Admin_Pages_TypePlace.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TypePlaceModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TypePlaceModel.Id" />
+            <div class="form-group">
+                <label asp-for="TypePlaceModel.Type" class="control-label"></label>
+                <input asp-for="TypePlaceModel.Type" class="form-control" />
+                <span asp-validation-for="TypePlaceModel.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypePlaceModel.Couleurs" class="control-label"></label>
+                <input asp-for="TypePlaceModel.Couleurs" class="form-control" />
+                <span asp-validation-for="TypePlaceModel.Couleurs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

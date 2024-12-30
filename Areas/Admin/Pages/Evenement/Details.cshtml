@@ -1,0 +1,73 @@
+@page
+@model TicketPlace2._0.Areas_Admin_Pages_Evenement.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>EvenementModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.Espace)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.Espace.Nom)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.Nom)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.Nom)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.Date)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.Heure)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.Heure)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.Lieu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.Lieu)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.ImagePath)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.ImagePath)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.OnCreate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.OnCreate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EvenementModel.OnUpdate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EvenementModel.OnUpdate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.EvenementModel.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

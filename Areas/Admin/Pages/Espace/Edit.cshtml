@@ -1,0 +1,76 @@
+@page
+@model TicketPlace2._0.Areas_Admin_Pages_Espace.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>EspaceModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EspaceModel.Id" />
+            <div class="form-group">
+                <label asp-for="EspaceModel.Nom" class="control-label"></label>
+                <input asp-for="EspaceModel.Nom" class="form-control" />
+                <span asp-validation-for="EspaceModel.Nom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EspaceModel.Adresse" class="control-label"></label>
+                <input asp-for="EspaceModel.Adresse" class="form-control" />
+                <span asp-validation-for="EspaceModel.Adresse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EspaceModel.Ville" class="control-label"></label>
+                <input asp-for="EspaceModel.Ville" class="form-control" />
+                <span asp-validation-for="EspaceModel.Ville" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EspaceModel.CodePostal" class="control-label"></label>
+                <input asp-for="EspaceModel.CodePostal" class="form-control" />
+                <span asp-validation-for="EspaceModel.CodePostal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EspaceModel.Largeur" class="control-label"></label>
+                <input asp-for="EspaceModel.Largeur" class="form-control" id="Largeur"/>
+                <span asp-validation-for="EspaceModel.Largeur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EspaceModel.Longueur" class="control-label"></label>
+                <input asp-for="EspaceModel.Longueur" class="form-control" id="Longueur"/>
+                <span asp-validation-for="EspaceModel.Longueur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EspaceModel.Capacite" class="control-label"></label>
+                <input asp-for="EspaceModel.Capacite" class="form-control" id="Capacite" readonly />
+                <span asp-validation-for="EspaceModel.Capacite" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById("Largeur").addEventListener("input", calculateCapacity);
+        document.getElementById("Longueur").addEventListener("input", calculateCapacity);
+
+        function calculateCapacity() {
+            var largeur = parseFloat(document.getElementById("Largeur").value) || 0;
+            var longueur = parseFloat(document.getElementById("Longueur").value) || 0;
+            var capacite = largeur * longueur;
+            document.getElementById("Capacite").value = capacite;
+        }
+    </script>
+}

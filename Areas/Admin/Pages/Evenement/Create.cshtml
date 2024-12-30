@@ -1,0 +1,63 @@
+@page
+@model TicketPlace2._0.Areas_Admin_Pages_Evenement.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>EvenementModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post"  enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EvenementModel.EspaceId" class="control-label"></label>
+                <select asp-for="EvenementModel.EspaceId" class ="form-control" asp-items="ViewBag.EspaceId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvenementModel.Nom" class="control-label"></label>
+                <input asp-for="EvenementModel.Nom" class="form-control" />
+                <span asp-validation-for="EvenementModel.Nom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvenementModel.Description" class="control-label"></label>
+                <input asp-for="EvenementModel.Description" class="form-control" />
+                <span asp-validation-for="EvenementModel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvenementModel.Date" class="control-label"></label>
+                <input asp-for="EvenementModel.Date" class="form-control" type="date"/>
+                <span asp-validation-for="EvenementModel.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvenementModel.Heure" class="control-label"></label>
+                <input asp-for="EvenementModel.Heure" class="form-control" type="time" />
+                <span asp-validation-for="EvenementModel.Heure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvenementModel.Lieu" class="control-label"></label>
+                <input asp-for="EvenementModel.Lieu" class="form-control" />
+                <span asp-validation-for="EvenementModel.Lieu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvenementModel.ImagePath" class="control-label">Image</label>
+                <input type="file" name="imageFile" class="form-control" />
+                <span asp-validation-for="EvenementModel.ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

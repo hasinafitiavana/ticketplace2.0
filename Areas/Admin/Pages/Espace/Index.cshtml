@@ -1,0 +1,84 @@
+@page
+@model TicketPlace2._0.Areas_Admin_Pages_Espace.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].Adresse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].Ville)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].CodePostal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].Largeur)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].Longueur)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].Capacite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].OnCreate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspaceModel[0].OnUpdate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.EspaceModel) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adresse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ville)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodePostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Largeur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Longueur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnUpdate)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

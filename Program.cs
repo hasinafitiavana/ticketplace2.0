@@ -6,6 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages()
+    .AddRazorPagesOptions(options =>
+    {
+        // Ajoute le préfixe '/admin' aux pages sous la zone 'Admin'
+        // options.Conventions.AddAreaPageRoute("Admin", "/Utilisateurs/Index", "/admin/utilisateurs");
+        // options.Conventions.AddAreaPageRoute("Admin", "/Utilisateurs", "/admin/utilisateurs");
+
+    });
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Durée de la session avant expiration
@@ -41,7 +50,7 @@ app.UseAuthentication(); // Ajouter l'authentification
 app.UseAuthorization();  // Ajouter l'autorisation
 
 app.UseSession();
-
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

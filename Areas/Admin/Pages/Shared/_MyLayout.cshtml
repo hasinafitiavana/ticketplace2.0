@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TicketPlace2._0.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-area="Admin" asp-page="/Utilisateurs/Index">TicketPlace2._0</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"].ToString() == "Utilisateurs" ? "active" : "")" asp-area="Admin" asp-page="/Utilisateurs/Index">Utilisateurs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"].ToString() == "Espace" ? "active" : "")" asp-area="Admin" asp-page="/Espace/Index">Espace</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"].ToString() == "Evenement" ? "active" : "")" asp-area="Admin" asp-page="/Evenement/Index">Evenement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"].ToString() == "Type de place Pour Evenement" ? "active" : "")" asp-area="Admin" asp-page="/EvenementTypePlace/Index">Type de place Pour Evenement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"].ToString() == "Type de place" ? "active" : "")" asp-area="Admin" asp-page="/TypePlace/Index">Type de place</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-light">@User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Logout">Déconnexion</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">Connexion</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

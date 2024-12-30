@@ -53,7 +53,7 @@ namespace TicketPlace2._0.Controllers
                     var authProperties = new AuthenticationProperties
                     {
                         // Redirection après la connexion
-                        RedirectUri = Url.Action("Index", "Home")
+                        // RedirectUri = Url.Action("Index", "Home")
                     };
 
                     // Connexion de l'utilisateur et création du cookie d'authentification
@@ -62,8 +62,18 @@ namespace TicketPlace2._0.Controllers
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
 
-                    // Redirection vers la page d'accueil après la connexion
-                    return RedirectToAction("Index", "Home");
+                     if (getUser.EstAdmin)
+                    {
+                        // Redirect to the Admin area
+                        // return RedirectToAction("Index", "Utilisateurs", new { area = "Admin" });
+                        return Redirect("/admin/utilisateurs");
+
+                    }
+                    else
+                    {
+                        // Redirect to the Home page for regular users
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
