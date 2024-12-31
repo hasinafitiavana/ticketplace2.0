@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace TicketPlace2._0.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,17 +15,17 @@ namespace TicketPlace2._0.Migrations
                 name: "Espaces",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nom = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Adresse = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Ville = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    CodePostal = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Largeur = table.Column<int>(type: "integer", nullable: false),
-                    Longueur = table.Column<int>(type: "integer", nullable: false),
-                    Capacite = table.Column<int>(type: "integer", nullable: false),
-                    OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Adresse = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Ville = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CodePostal = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Largeur = table.Column<int>(type: "int", nullable: false),
+                    Longueur = table.Column<int>(type: "int", nullable: false),
+                    Capacite = table.Column<int>(type: "int", nullable: false),
+                    OnCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OnUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,9 +36,10 @@ namespace TicketPlace2._0.Migrations
                 name: "TypePlaces",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Couleurs = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,16 +50,16 @@ namespace TicketPlace2._0.Migrations
                 name: "Utilisateurs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nom = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Prenom = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    MotDePasse = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    EstAdmin = table.Column<bool>(type: "boolean", nullable: false),
-                    DateDeNaissance = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Prenom = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    MotDePasse = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    EstAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    DateDeNaissance = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OnCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OnUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,16 +70,17 @@ namespace TicketPlace2._0.Migrations
                 name: "Evenements",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EspaceId = table.Column<int>(type: "integer", nullable: false),
-                    Nom = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Heure = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    Lieu = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EspaceId = table.Column<int>(type: "int", nullable: false),
+                    Nom = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Heure = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Lieu = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    OnCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OnUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,15 +97,15 @@ namespace TicketPlace2._0.Migrations
                 name: "EvenementTypePlaces",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EvenementId = table.Column<int>(type: "integer", nullable: false),
-                    TypePlaceId = table.Column<int>(type: "integer", nullable: false),
-                    NombreDePlaces = table.Column<int>(type: "integer", nullable: false),
-                    Emplacement = table.Column<int>(type: "integer", nullable: false),
-                    Prix = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EvenementId = table.Column<int>(type: "int", nullable: false),
+                    TypePlaceId = table.Column<int>(type: "int", nullable: false),
+                    NombreDePlaces = table.Column<int>(type: "int", nullable: false),
+                    Emplacements = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prix = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    OnCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OnUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -127,16 +128,16 @@ namespace TicketPlace2._0.Migrations
                 name: "PlaceVendues",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EvenementId = table.Column<int>(type: "integer", nullable: false),
-                    TypePlaceId = table.Column<int>(type: "integer", nullable: false),
-                    UtilisateurId = table.Column<int>(type: "integer", nullable: false),
-                    NumeroDePlace = table.Column<int>(type: "integer", nullable: false),
-                    TypeReservation = table.Column<string>(type: "text", nullable: false),
-                    Prix = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    OnCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OnUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EvenementId = table.Column<int>(type: "int", nullable: false),
+                    TypePlaceId = table.Column<int>(type: "int", nullable: false),
+                    UtilisateurId = table.Column<int>(type: "int", nullable: false),
+                    NumeroDePlace = table.Column<int>(type: "int", nullable: false),
+                    TypeReservation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prix = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    OnCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OnUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
