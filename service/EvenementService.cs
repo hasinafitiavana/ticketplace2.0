@@ -130,10 +130,6 @@ namespace TicketPlace2._0.service
             {
                 await connection.OpenAsync();
 
-                // var query = "SELECT etp.Id, etp.EvenementId, etp.TypePlaceId, tp.Type AS TypePlaceName FROM EvenementTypePlaces etp " +
-                //             "INNER JOIN TypePlaces tp ON etp.TypePlaceId = tp.Id " +
-                //             "WHERE etp.EvenementId = @Id";
-
                 var query = "SELECT etp.Id, etp.EvenementId, etp.TypePlaceId, tp.Type AS TypePlaceName, tp.Couleurs FROM EvenementTypePlaces etp " +
                 "INNER JOIN TypePlaces tp ON etp.TypePlaceId = tp.Id " +
                 "WHERE etp.EvenementId = @Id";
@@ -163,6 +159,33 @@ namespace TicketPlace2._0.service
             }
 
             return evenementTypePlaces;
+        }
+
+        public async Task<PlaceVendueModel> InserPlaceVendu(PlaceVendueModel placeVendueModel)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = "INSERT INTO PlaceVendues (EvenementId, TypePlaceId, UtilisateurId, NumeroDePlace, TypeReservation, Prix, OnCreate, OnUpdate) " +
+                            "VALUES (@EvenementId, @TypePlaceId, @UtilisateurId, @NumeroDePlace, @TypeReservation, @Prix, @OnCreate, @OnUpdate); SELECT SCOPE_IDENTITY()";
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EvenementId", placeVendueModel.EvenementId);
+                    command.Parameters.AddWithValue("@TypePlaceId", placeVendueModel.TypePlaceId);
+                    command.Parameters.AddWithValue("@UtilisateurId", placeVendueModel.UtilisateurId);
+                    command.Parameters.AddWithValue("@NumeroDePlace", placeVendueModel.NumeroDePlace);
+                    command.Parameters.AddWithValue("@TypeReservation", placeVendueModel.TypeReservation);
+                    command.Parameters.AddWithValue("@Prix", placeVendueModel.Prix);
+                    command.Parameters.AddWithValue("@OnCreate", placeVendueModel.OnCreate);
+                    command.Parameters.AddWithValue("@OnUpdate", placeVendueModel.OnUpdate);
+
+                    placeVendueModel.Id = Convert.ToInt32(await command.ExecuteScalarAsync());
+                }
+            }
+
+            return placeVendueModel;
         }
     }
 }

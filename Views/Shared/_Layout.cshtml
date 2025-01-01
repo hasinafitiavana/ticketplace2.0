@@ -26,10 +26,12 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Evenement" && ViewContext.RouteData.Values["action"].ToString() == "ListEvenementPaginated" ? "active" : "")" asp-area="" asp-controller="Evenement" asp-action="ListEvenementPaginated">Events</a>
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Evenement" && ViewContext.RouteData.Values["action"].ToString() == "ListEvenementPaginated" ? "active" : "")" asp-area="" asp-controller="Evenement" asp-action="ListEvenementPaginated">Evenement</a>
                             </li>
                             
-                        
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "EvenementTypePlace" && ViewContext.RouteData.Values["action"].ToString() == "ListEvenementTypePlace" ? "active" : "")" asp-area="" asp-controller="EvenementTypePlace" asp-action="ListEvenementTypePlace">Mes réservations</a>
+                            </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)

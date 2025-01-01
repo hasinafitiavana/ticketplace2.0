@@ -15,7 +15,6 @@ builder.Services.AddTransient<TicketService>();
 builder.Services.AddRazorPages()
     .AddRazorPagesOptions(options =>
     {
-        // Ajoute le préfixe '/admin' aux pages sous la zone 'Admin'
         // options.Conventions.AddAreaPageRoute("Admin", "/Utilisateurs/Index", "/admin/utilisateurs");
         // options.Conventions.AddAreaPageRoute("Admin", "/Utilisateurs", "/admin/utilisateurs");
 
@@ -39,11 +38,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -52,8 +49,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // Ajouter l'authentification
-app.UseAuthorization();  // Ajouter l'autorisation
+app.UseAuthentication(); 
+app.UseAuthorization(); 
 
 app.UseSession();
 app.MapRazorPages();

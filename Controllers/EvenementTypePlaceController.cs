@@ -9,6 +9,9 @@ using TicketPlace2._0.Models;
 using ticketplace.Data;
 using TicketPlace2._0.service;
 using TicketPlace2._0.Service;
+using Newtonsoft.Json;
+using ticketplace.Models;
+using System.Security.Claims;
 
 namespace TicketPlace2._0.Controllers
 {
@@ -191,26 +194,38 @@ namespace TicketPlace2._0.Controllers
         {
             var evenement = await _context.Evenements.Include(e => e.Espace).FirstOrDefaultAsync(e => e.Id == idEvenement);
             var evenementTypePlaces = await _context.EvenementTypePlaces.Include(e => e.TypePlace).Where(e => e.EvenementId == idEvenement).ToListAsync();
+            var typePlaceAlreadySelected = await _context.PlaceVendues.Where(e => e.EvenementId == idEvenement).ToListAsync();
             if (evenement == null)
             {
                 return NotFound();
             }
-            
+            var utilisateurId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ViewData["UtilisateurId"] = utilisateurId;
             ViewData["EvenementTypePlaces"] = evenementTypePlaces;
+            ViewData["TypePlaceAlreadySelected"] = typePlaceAlreadySelected;
 
             return View(evenement);
         }
 
-        // public async Task<IActionResult> DownloadTicket(int idEvenement)
-        // {
-        //      if (string.IsNullOrEmpty(content))
-        //     {
-        //         return BadRequest("Content is required to generate the PDF.");
-        //     }
-
-        //     var pdfBytes = _pdfService.GeneratePdf(content);
-        //     return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
-        // }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> InsertPlaceVendu([Bind("Id,EvenementId,TypePlaceId,UtilisateurId,TypeReservation,NumeroDePlace,Prix,OnCreate,OnUpdate")] PlaceVendueModel placeVendueModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(placeVendueModel);
+                await _context.SaveChangesAsync();
+                string content = "Ticket pour " + placeVendueModel.NumeroDePlace; ;
+                var pdfBytes = _ticketService.GeneratePdfWithQrCode(content);
+                return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
+            }
+            ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description", placeVendueModel.EvenementId);
+            ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", placeVendueModel.TypePlaceId);
+            ViewData["UtilisateurId"] = new SelectList(_context.Utilisateurs, "Id", "Email", placeVendueModel.UtilisateurId);
+            // return View(placeVendueModel);
+            return RedirectToAction("ChoixPlace", new { idEvenement = placeVendueModel.EvenementId });
+        }
+        
         [HttpGet]
         public IActionResult DownloadTicket(int idEvenement)
         {
@@ -220,10 +235,10 @@ namespace TicketPlace2._0.Controllers
                 return BadRequest("Content is required to generate the PDF.");
             }
 
-            var pdfBytes = _ticketService.GeneratePdf(content);
+            // var pdfBytes = _ticketService.GeneratePdf(content);
+            var pdfBytes = _ticketService.GeneratePdfWithQrCode(content );
             return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
         }
-
         private bool EvenementTypePlaceModelExists(int id)
         {
             return _context.EvenementTypePlaces.Any(e => e.Id == id);

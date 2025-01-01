@@ -43,6 +43,7 @@ namespace TicketPlace2._0.Controllers
                     {
                         new Claim(ClaimTypes.Name, getUser.Nom + " " + getUser.Prenom),
                         new Claim(ClaimTypes.Role, getUser.EstAdmin ? "Admin" : "User"),
+                        new Claim(ClaimTypes.NameIdentifier, getUser.Id.ToString()),
                     };
 
                     // Création de l'identité des revendications avec le schéma d'authentification par cookies

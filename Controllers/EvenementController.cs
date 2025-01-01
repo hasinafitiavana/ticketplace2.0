@@ -35,7 +35,19 @@ namespace TicketPlace2._0.Controllers
             return View(items);
         }
 
-        
+        // public async Task<IActionResult> InsertPlaceVendu([Bind()]PlaceVendueModel placeVendueModel)
+        // {
+        //     await _evenementService.InserPlaceVendu(placeVendueModel);
+        // }
+        // public async Task<IActionResult> InsertPlaceVendu([Bind] PlaceVendueModel placeVendueModel)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         await _evenementService.InserPlaceVendu(placeVendueModel);
+        //         return RedirectToAction("ListEvenementPaginated", "Evenement");
+        //     }
+        //     return View(placeVendueModel);
+        // }
 
         private bool EvenementModelExists(int id)
         {

@@ -27,7 +27,6 @@ namespace TicketPlace2._0.Areas_Admin_Pages_Espace
         [BindProperty]
         public EspaceModel EspaceModel { get; set; } = default!;
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
