@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ticketplace.Data;
 using TicketPlace2._0.service;
+using TicketPlace2._0.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<EvenementService>();
+builder.Services.AddTransient<ChoixPlaceService>();
+builder.Services.AddTransient<TicketService>();
 builder.Services.AddRazorPages()
     .AddRazorPagesOptions(options =>
     {

@@ -21,6 +21,10 @@
                         <li class="nav-item">
                             <a class="nav-link @(ViewData["Title"].ToString() == "Utilisateurs" ? "active" : "")" asp-area="Admin" asp-page="/Utilisateurs/Index">Utilisateurs</a>
                         </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"].ToString() == "Type de place" ? "active" : "")" asp-area="Admin" asp-page="/TypePlace/Index">Type de place</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewData["Title"].ToString() == "Espace" ? "active" : "")" asp-area="Admin" asp-page="/Espace/Index">Espace</a>
                         </li>
@@ -29,9 +33,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewData["Title"].ToString() == "Type de place Pour Evenement" ? "active" : "")" asp-area="Admin" asp-page="/EvenementTypePlace/Index">Type de place Pour Evenement</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewData["Title"].ToString() == "Type de place" ? "active" : "")" asp-area="Admin" asp-page="/TypePlace/Index">Type de place</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">

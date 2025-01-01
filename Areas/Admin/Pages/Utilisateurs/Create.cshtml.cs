@@ -34,7 +34,7 @@ namespace TicketPlace2._0.Areas_Admin_Pages_Utilisateurs
             {
                 return Page();
             }
-            UtilisateurModel.DateDeNaissance = DateTime.SpecifyKind(UtilisateurModel.DateDeNaissance, DateTimeKind.Utc);
+            // UtilisateurModel.DateDeNaissance = DateTime.SpecifyKind(UtilisateurModel.DateDeNaissance, DateTimeKind.Utc);
 
             _context.Utilisateurs.Add(UtilisateurModel);
             await _context.SaveChangesAsync();
