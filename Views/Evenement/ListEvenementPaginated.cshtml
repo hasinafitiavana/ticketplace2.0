@@ -87,8 +87,6 @@
                                 @item.Date.ToString("MMMM dd, yyyy") à @item.Heure.ToString("hh\\:mm")
                             </small>
                         </p>
-
-<a asp-controller="EvenementTypePlace" asp-action="DownloadTicket" asp-route-idEvenement="@item.Id">Télécharger le ticket</a>
                         <a href="@Url.Action("ChoixPlace", "EvenementTypePlace", new { idEvenement = item.Id })" class="btn btn-primary">Voir</a>
                     </div>
                 </div>

@@ -1,10 +1,131 @@
-@page
+@model IEnumerable<TicketPlace2._0.Models.PlaceVendueModel>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Liste des Places Vendues";
 }
 
-<h1>@ViewData["Title"]</h1>
+<style>
+    /* Styles CSS */
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body{
+        background-color: #f9f6f2;
+    }
+    .card-img-top{
+        border-radius: 50px;
+        padding: 20px;
+    }
+    .card{
+        border-radius: 30px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    }
+    .card-body{
+        padding: 25px;
+        margin-top: -15px;
+    }
+    .btn-primary{
+        border-radius: 50px;
+        width: 120px;
+    }
+    .btn-primary:hover{
+        background-color: black;
+        border: none;
+    }
+    h3,h5{
+        color: rgb(0, 91, 228);
+    }
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+    .pagination li {
+        margin: 0 5px;
+    }
+    .pagination a, .pagination span {
+        display: block;
+        padding: 8px 12px;
+        background-color: #f9f6f2;
+        color: #007bff;
+        text-decoration: none;
+        border-radius: 50px;
+        border: 1px solid #007bff;
+    }
+    .pagination .active a {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    .pagination a:hover {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
 
-<div>
-    
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <label for="search">Recherche:</label>
+        <input type="text" name="search" value="@ViewData["Search"]" class="form-control" />
+        <button type="submit" class="btn btn-primary mt-2">Recherche</button>
+    </div>
+</form>
+
+<div class="container py-5">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <img src="@item.Evenement?.ImagePath" height="200px" class="card-img-top" alt="@item.Evenement?.Nom">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Evenement?.Nom</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.Evenement?.Lieu</h6>
+                        <p class="card-text">@item.TypeReservation</p>
+                        <p class="card-text">Numéro de place: @item.NumeroDePlace</p>
+                        <p class="card-text">Prix: @item.Prix</p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                @item.Evenement?.Date.ToString("MMMM dd, yyyy") à @item.Evenement?.Heure.ToString("hh\\:mm")
+                            </small>
+                        </p>
+                        <a asp-controller="EvenementTypePlace" asp-action="DownloadTicket" asp-route-numeroTicket="@item.NumeroDePlace" class="btn btn-primary">Télécharger le ticket</a>
+                        <a href="@Url.Action("ChoixPlace", "EvenementTypePlace", new { idEvenement = item.EvenementId })" class="btn btn-primary">Voir</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+    <ul class="pagination">
+        @{
+            var currentPage = (int)ViewData["CurrentPage"];
+            var totalPages = (int)ViewData["TotalPages"];
+        }
+
+        @if (currentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-search="@ViewData["Search"]">Précédent</a>
+            </li>
+        }
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @((i == currentPage) ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@ViewData["Search"]">@i</a>
+            </li>
+        }
+
+        @if (currentPage < totalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-search="@ViewData["Search"]">Suivant</a>
+            </li>
+        }
+    </ul>
 </div>

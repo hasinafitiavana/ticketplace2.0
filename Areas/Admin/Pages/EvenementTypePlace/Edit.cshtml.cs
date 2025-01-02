@@ -42,7 +42,7 @@ namespace TicketPlace2._0.Areas_Admin_Pages_EvenementTypePlace
             ViewData["Evenement"] = evenements;
             ViewData["EvenementTypePlace"] = _context.EvenementTypePlaces.ToList();
             ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description");
-            ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Couleurs");
+            ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type");
             return Page();
         }
 

@@ -9,9 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHostedService<CronJobService>(); // ito le manao cron
 builder.Services.AddTransient<EvenementService>();
 builder.Services.AddTransient<ChoixPlaceService>();
 builder.Services.AddTransient<TicketService>();
+builder.Services.AddTransient<ReservationService>();
+
+// builder.Services.AddScoped<ReservationService>();
 builder.Services.AddRazorPages()
     .AddRazorPagesOptions(options =>
     {
@@ -22,15 +26,15 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Durée de la session avant expiration
-    options.Cookie.HttpOnly = true; // Rend le cookie de session accessible uniquement par HTTP
-    options.Cookie.IsEssential = true; // Rend le cookie de session essentiel
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true;
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/Login"; // Chemin de la page de login
-        options.AccessDeniedPath = "/Account/AccessDenied"; // Chemin de la page d'accès refusé
+        options.LoginPath = "/Account/Login"; 
+        options.AccessDeniedPath = "/Account/AccessDenied"; 
     });
 
 builder.Services.AddAuthorization();

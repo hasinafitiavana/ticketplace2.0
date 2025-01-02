@@ -30,7 +30,7 @@
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "EvenementTypePlace" && ViewContext.RouteData.Values["action"].ToString() == "ListEvenementTypePlace" ? "active" : "")" asp-area="" asp-controller="EvenementTypePlace" asp-action="ListEvenementTypePlace">Mes réservations</a>
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Reservation" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="Reservation" asp-action="Index">Mes réservations</a>
                             </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">

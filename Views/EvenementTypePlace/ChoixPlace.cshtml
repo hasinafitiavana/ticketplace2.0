@@ -59,7 +59,7 @@
                         <input type="hidden" name="UtilisateurId" value="@userId" id="UtilisateurId" />
                         <input type="hidden" name="NumeroDePlace" value="/* Set this value dynamically */" id="NumeroDePlace" />
                         <div class="mb-3">
-                            <label for="Prix" class="form-label">Prix</label>
+                            @* <label for="Prix" class="form-label">Prix</label> *@
                             <input type="hidden" class="form-control" id="Prix" name="Prix" required id="Prix" >
                         </div>
                         <input type="hidden" id="TypeReservation" name="TypeReservation" value="" id="TypeReservation" />
@@ -92,9 +92,9 @@
             const form = document.getElementById('formulaire');
             if (form.checkValidity()) {
                 form.submit(); 
-                setTimeout(() => {
+                @* setTimeout(() => {
                     window.location.reload();
-                }, 1000);
+                }, 100); *@
             } else {
                 alert("Form is not valid. Please check the fields.");
             }

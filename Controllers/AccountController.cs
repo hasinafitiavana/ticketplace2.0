@@ -87,9 +87,7 @@ namespace TicketPlace2._0.Controllers
         
         public async Task<IActionResult> Logout()
         {
-            // Déconnexion de l'utilisateur et suppression du cookie d'authentification
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            // Suppression des données utilisateur de la session
             HttpContext.Session.Remove("User");
             return RedirectToAction("Login", "Account");
         }

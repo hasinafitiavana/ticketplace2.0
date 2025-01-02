@@ -215,28 +215,35 @@ namespace TicketPlace2._0.Controllers
             {
                 _context.Add(placeVendueModel);
                 await _context.SaveChangesAsync();
-                string content = "Ticket pour " + placeVendueModel.NumeroDePlace; ;
-                var pdfBytes = _ticketService.GeneratePdfWithQrCode(content);
-                return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
+                if(placeVendueModel.TypeReservation == "RESERVER")
+                // {
+                    return RedirectToAction("ChoixPlace", new { idEvenement = placeVendueModel.EvenementId });
+                // }
+                // string content = "Ticket pour " + placeVendueModel.NumeroDePlace; ;
+                // var pdfBytes = _ticketService.GeneratePdfWithQrCode(content);
+                // return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
             }
             ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description", placeVendueModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", placeVendueModel.TypePlaceId);
             ViewData["UtilisateurId"] = new SelectList(_context.Utilisateurs, "Id", "Email", placeVendueModel.UtilisateurId);
-            // return View(placeVendueModel);
             return RedirectToAction("ChoixPlace", new { idEvenement = placeVendueModel.EvenementId });
         }
         
         [HttpGet]
-        public IActionResult DownloadTicket(int idEvenement)
+        public async Task<IActionResult> DownloadTicket(int numeroTicket)
         {
-            string content = "Ticket for event " + idEvenement;
-            if (string.IsNullOrEmpty(content))
+            var placeVendu = await _context.PlaceVendues
+                                           .Include(e => e.Evenement)
+                                           .Include(e => e.TypePlace)
+                                           .Include(e => e.Utilisateur)
+                                           .FirstOrDefaultAsync(e => e.NumeroDePlace == numeroTicket);
+
+            if (placeVendu == null)
             {
-                return BadRequest("Content is required to generate the PDF.");
+                return NotFound("Ticket not found.");
             }
 
-            // var pdfBytes = _ticketService.GeneratePdf(content);
-            var pdfBytes = _ticketService.GeneratePdfWithQrCode(content );
+            var pdfBytes = _ticketService.GeneratePdfWithQrCode(placeVendu, "https://localhost:5001/EvenementTypePlace/ChoixPlace?idEvenement=" + placeVendu.EvenementId);
             return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
         }
         private bool EvenementTypePlaceModelExists(int id)

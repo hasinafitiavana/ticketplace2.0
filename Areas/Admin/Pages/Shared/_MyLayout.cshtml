@@ -34,6 +34,11 @@
                         <li class="nav-item">
                             <a class="nav-link @(ViewData["Title"].ToString() == "Type de place Pour Evenement" ? "active" : "")" asp-area="Admin" asp-page="/EvenementTypePlace/Index">Type de place Pour Evenement</a>
                         </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"].ToString() == "Type de place Pour Evenement" ? "active" : "")" asp-area="Admin" asp-page="/Statistique/Index">Statistiques</a>
+                        </li>
+                        
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)

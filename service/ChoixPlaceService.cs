@@ -13,7 +13,7 @@ namespace TicketPlace2._0.service
 
         public ChoixPlaceService(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<EvenementModel?> GetEvenementByIdAsync(int evenementId)
