@@ -19,11 +19,13 @@ namespace TicketPlace2._0.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly TicketService _ticketService;
+        private readonly EmailService _emailService;
 
-        public EvenementTypePlaceController(ApplicationDbContext context, TicketService ticketService)
+        public EvenementTypePlaceController(ApplicationDbContext context, TicketService ticketService, EmailService emailService)
         {
             _context = context;
             _ticketService = ticketService;
+            _emailService = emailService;
         }
 
         // GET: EvenementTypePlace
@@ -190,11 +192,11 @@ namespace TicketPlace2._0.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> ChoixPlace(int idEvenement)
+        public async Task<IActionResult> ChoixPlace(int idEvenement, int? idPlaceAcheter)
         {
             var evenement = await _context.Evenements.Include(e => e.Espace).FirstOrDefaultAsync(e => e.Id == idEvenement);
             var evenementTypePlaces = await _context.EvenementTypePlaces.Include(e => e.TypePlace).Where(e => e.EvenementId == idEvenement).ToListAsync();
-            var typePlaceAlreadySelected = await _context.PlaceVendues.Where(e => e.EvenementId == idEvenement).ToListAsync();
+            var typePlaceAlreadySelected = await _context.PlaceVendues.Include(e => e.Utilisateur).Where(e => e.EvenementId == idEvenement).ToListAsync();
             if (evenement == null)
             {
                 return NotFound();
@@ -203,6 +205,10 @@ namespace TicketPlace2._0.Controllers
             ViewData["UtilisateurId"] = utilisateurId;
             ViewData["EvenementTypePlaces"] = evenementTypePlaces;
             ViewData["TypePlaceAlreadySelected"] = typePlaceAlreadySelected;
+            if (idPlaceAcheter != null)
+            {
+                ViewData["IdPlaceAcheter"] = idPlaceAcheter;
+            }
 
             return View(evenement);
         }
@@ -215,13 +221,24 @@ namespace TicketPlace2._0.Controllers
             {
                 _context.Add(placeVendueModel);
                 await _context.SaveChangesAsync();
-                if(placeVendueModel.TypeReservation == "RESERVER")
-                // {
-                    return RedirectToAction("ChoixPlace", new { idEvenement = placeVendueModel.EvenementId });
-                // }
-                // string content = "Ticket pour " + placeVendueModel.NumeroDePlace; ;
-                // var pdfBytes = _ticketService.GeneratePdfWithQrCode(content);
-                // return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
+                var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Id == placeVendueModel.UtilisateurId);
+                var evenement = await _context.Evenements.FirstOrDefaultAsync(e => e.Id == placeVendueModel.EvenementId);
+                var typePlace = await _context.TypePlaces.FirstOrDefaultAsync(e => e.Id == placeVendueModel.TypePlaceId);
+                if(placeVendueModel.TypeReservation == "ACHETER"){
+                    _emailService.mailBody("Achat de ticket", utilisateur.Email, evenement.Nom, evenement.Date.ToString(), placeVendueModel.NumeroDePlace.ToString(), placeVendueModel.Prix.ToString(),placeVendueModel.EvenementId); 
+                    //suprimer la place de la liste des places disponibles
+                    var evenementTypePlaces = await _context.PlaceVendues
+                        .Where(e => e.NumeroDePlace == placeVendueModel.NumeroDePlace 
+                                    && e.EvenementId == placeVendueModel.EvenementId 
+                                    && e.TypeReservation == "RESERVER")
+                        .ToListAsync();
+                    if (evenementTypePlaces.Any())
+                    {
+                        _context.RemoveRange(evenementTypePlaces);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                return RedirectToAction("ChoixPlace", new { idEvenement = placeVendueModel.EvenementId });
             }
             ViewData["EvenementId"] = new SelectList(_context.Evenements, "Id", "Description", placeVendueModel.EvenementId);
             ViewData["TypePlaceId"] = new SelectList(_context.TypePlaces, "Id", "Type", placeVendueModel.TypePlaceId);
@@ -230,20 +247,20 @@ namespace TicketPlace2._0.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> DownloadTicket(int numeroTicket)
+        public async Task<IActionResult> DownloadTicket(int numeroTicket, int idEvenement)
         {
             var placeVendu = await _context.PlaceVendues
                                            .Include(e => e.Evenement)
                                            .Include(e => e.TypePlace)
                                            .Include(e => e.Utilisateur)
-                                           .FirstOrDefaultAsync(e => e.NumeroDePlace == numeroTicket);
+                                           .FirstOrDefaultAsync(e => e.NumeroDePlace == numeroTicket && e.EvenementId == idEvenement);
 
             if (placeVendu == null)
             {
                 return NotFound("Ticket not found.");
             }
 
-            var pdfBytes = _ticketService.GeneratePdfWithQrCode(placeVendu, "https://localhost:5001/EvenementTypePlace/ChoixPlace?idEvenement=" + placeVendu.EvenementId);
+            var pdfBytes = _ticketService.GeneratePdfWithQrCode(placeVendu, "http://localhost:5125/EvenementTypePlace/ChoixPlace?idEvenement=" + placeVendu.EvenementId + "&idPlaceAcheter=" + placeVendu.NumeroDePlace);
             return File(pdfBytes, "application/pdf", "GeneratedDocument.pdf");
         }
         private bool EvenementTypePlaceModelExists(int id)

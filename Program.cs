@@ -13,6 +13,7 @@ builder.Services.AddHostedService<CronJobService>(); // ito le manao cron
 builder.Services.AddTransient<EvenementService>();
 builder.Services.AddTransient<ChoixPlaceService>();
 builder.Services.AddTransient<TicketService>();
+builder.Services.AddTransient<EmailService>();
 builder.Services.AddTransient<ReservationService>();
 
 // builder.Services.AddScoped<ReservationService>();
